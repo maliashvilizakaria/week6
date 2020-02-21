@@ -5,7 +5,7 @@ from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select, WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
@@ -130,10 +130,8 @@ def test_explicit_wait(browser):
     sleep(5)
     # element1 = browser.find_element_by_xpath("//body//input[1]")
     # element2 = browser.find_element_by_xpath("//body//input[2]")
-    element1 = wait.until(expected_conditions.visibility_of_element_located(
-        (By.XPATH, "//body//input[1]")))
-    element2 = wait.until(expected_conditions.element_to_be_clickable(
-        (By.XPATH, "//body//input[2]")))
+    element1 = wait.until(EC.visibility_of_element_located((By.XPATH, "//body//input[1]")))
+    element2 = wait.until(EC.element_to_be_clickable((By.XPATH, "//body//input[2]")))
 
     # logic for element1
     if element1.is_selected():
