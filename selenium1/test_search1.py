@@ -19,9 +19,17 @@ def test_launching_site(browser):
 
 
 def test_entering_the_keyword(browser):
-    browser.find_element_by_name("search_query").send_keys(keyword)
+    searchbox = browser.find_element_by_name("search_query")
+    # searchbox.send_keys('iphone')
+    # searchbox.submit()
+    # time.sleep(10)
+    searchbox.clear()
+    time.sleep(3)
+    searchbox.send_keys(keyword)
     time.sleep(5)
-    browser.find_element_by_name("submit_search").click()
+    # browser.find_element_by_name("submit_search").click()
+    searchbox.submit()
+    print("submitting the form")
 
 
 def test_verify_result(browser):
@@ -29,3 +37,14 @@ def test_verify_result(browser):
         "//*[@id='center_column']/ul/li")
     assert len(products_list) >= 1
     time.sleep(5)
+
+# HW: google search
+# resulttext = browser.find_element_by_xpath("//*[@id='mBMHK']").text
+# try to send keys 'iphone', clear and send key 'python'
+    # "About 494,000,000 results (0.56 seconds) "
+    # get the number parse it to numbers only then convert to int, apply the condition :
+    # 1. split(), split(","), ''.join(numlist), int(strnumber)
+    #   if 494000000 > 300000000 :
+    #     assert True
+    # else:
+    #     assert False
