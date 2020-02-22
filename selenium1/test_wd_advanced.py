@@ -7,36 +7,37 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import selenium1.utilities as utils
 
-
-# methods for performing keyboard and mouse actions using Actions class
-# simulating mouse operations such as draand driop and double click
-# Running JacaScript code
-# capturing screenshots and movies of test runs
-# Handling browser navigation and cookies
+# AGENDA: 
+    # methods for performing keyboard and mouse actions using Actions class
+    # simulating mouse operations such as draand driop and double click
+    # Running JacaScript code
+    # capturing screenshots and movies of test runs
 
 # print(utilities.get_timestamp())
-# url = "https://learn.letskodeit.com/p/practice"
+
 
 def test_take_screenshots(browser):
     """takes screenshots if no element found"""
 
     url = "http://the-internet.herokuapp.com/login"
-    try:
-        browser.get(url)
-        # element locators
-        username = browser.find_element_by_xpath("//input[@id='username']")
-        passwrod = browser.find_element_by_xpath("//input[@id='password']")
-        login = browser.find_element_by_xpath(
-            "//i[@class='fa fa-2x fa-sign-in']")
+    browser.get(url)
 
-        username.send_keys("tomsmith")
-        passwrod.send_keys("SuperSecretPassword!")
-        login.click()
-        sleep(10)
-    except NoSuchElementException:
-        filepath = "./screenshots/"+utils.get_timestamp()+".png"
-        browser.save_screenshot(filepath)
-        sleep(5)
+    # Steps to automate:
+    # use existing scipt, create a directory 
+    # use try except 
+    # get timestamp
+    # save screenshot with driver.save_screenshot(file)
+    # log each step with print
+
+    # use the following Login steps we created previously
+    username = browser.find_element_by_xpath("//input[@id='username']")
+    passwrod = browser.find_element_by_xpath("//input[@id='password']")
+    login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
+    username.send_keys("tomsmith")
+    passwrod.send_keys("SuperSecretPassword!")
+    login.click()
+    sleep(10)
+
 
 
 def test_popup_window(browser):
@@ -44,27 +45,19 @@ def test_popup_window(browser):
 
     url = "https://learn.letskodeit.com/p/practice"
     browser.get(url)
-    # get handle
-    parent_window_id = browser.current_window_handle
-    sleep(10)
-    openwindow_button = browser.find_element_by_xpath(
-        "//button[@id='openwindow']")
-    openwindow_button.click()
-    handles = browser.window_handles
-    for handle in handles:
-        if handle not in parent_window_id:
-            browser.switch_to.window(handle)
-            sleep(10)
-            search = browser.find_element_by_xpath(
-                "//input[@id='search-courses']")
-            search.send_keys("python")
-            search.submit()
-            sleep(10)
-            browser.close()
-            break
 
-    browser.switch_to.window(parent_window_id)
-    sleep(5)
+    # Steps to automate:
+    # get current handle
+    # find element to click
+    # get all handles with driver.window_handles
+    # loop all handles and go to the handle that is not parent
+    # find element - search box and enter something
+    # submit,  take a screenshot, use break
+    # switch back to main window
+    # log each step with print
+
+
+
 
 
 def test_execute_js(browser):
@@ -72,8 +65,7 @@ def test_execute_js(browser):
 
     url = "https://learn.letskodeit.com/p/practice"
     browser.get(url)
-    browser.execute_script(
-        "window.location = 'https://learn.letskodeit.com/p/practice';")
+    browser.execute_script("window.location = 'https://learn.letskodeit.com/p/practice';")
 
     # element = browser.find_element_by_id('name')
     element = browser.execute_script("return document.getElementById('name');")
@@ -94,34 +86,25 @@ def test_hover_action(browser):
     url = "https://learn.letskodeit.com/p/practice"
     browser.get(url)
 
-    element = browser.find_element_by_xpath("//button[@id='mousehover']")
-    actions = ActionChains(browser)
-    actions.move_to_element(element).perform()
-    print("Mouse hovered on the element")
-    sleep(5)
-    topLink = browser.find_element_by_xpath("//a[contains(text(),'Top')]")
-    topLink.click()
-    sleep(3)
-    print("top link clicked")
+    # Steps to automate:
+    # find element to hover
+    # create actions object of ActionChains(driver) class
+    # perform move_to_element(element) action
+    # click the element that appears on hover
+    # log each step with print
+
 
 
 def test_drag_and_drop(browser):
     """ Demonstrates Drag and Drop mouse action using ActionChains class."""
 
-    url = "http://the-internet.herokuapp.com/drag_and_drop"
     url = "https://jqueryui.com/droppable/"
     browser.get(url)
 
-    # elementA = browser.find_element_by_xpath("//div[@id='column-a']")
-    # elementB = browser.find_element_by_xpath("//div[@id='column-b']")
-    elementA = browser.find_element_by_xpath("//div[@id='draggable']")
-    elementB = browser.find_element_by_xpath("//div[@id='droppable']")
-
-    actions = ActionChains(browser)
-    actions.drag_and_drop(elementA, elementB).perform()
-    print('dragged element A to B')
-    sleep(5)
-
-    # actions.click_and_hold(elementB).move_to_element(elementA).release().perform()
-    # print("dragged element B to A .")
-    # sleep(5)
+    # Steps to automate:
+    # locate draggable element
+    # locate droppable element
+    # create an object of ActionChains(driver) class
+    # perform drag_and_drop action
+    # Alternative: perform click_and_hold(element1).move_to_element(element2).release action
+    # log each step with print
