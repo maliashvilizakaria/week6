@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import selenium1.utilities as utils
+from selenium.common.exceptions import NoSuchElelemntException
 
 # AGENDA: 
     # methods for performing keyboard and mouse actions using Actions class
@@ -16,7 +17,6 @@ import selenium1.utilities as utils
 
 def test_take_screenshots(browser):
     """takes screenshots if no element found"""
-
     url = "http://the-internet.herokuapp.com/login"
     browser.get(url)
 
@@ -28,13 +28,30 @@ def test_take_screenshots(browser):
     # log each step with print
 
     # use the following Login steps we created previously
-    username = browser.find_element_by_xpath("//input[@id='username']")
-    passwrod = browser.find_element_by_xpath("//input[@id='password']")
-    login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
-    username.send_keys("tomsmith")
-    passwrod.send_keys("SuperSecretPassword!")
-    login.click()
-    sleep(10)
+    # username = browser.find_element_by_xpath("//input[@id='username']")
+    # passwrod = browser.find_element_by_xpath("//input[@id='password']")
+    # login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
+    # username.send_keys("tomsmith")
+    # passwrod.send_keys("SuperSecretPassword!")
+    # login.click()
+    # sleep(10)
+
+    try:
+        # use the following Login steps we created previously
+        username = browser.find_element_by_xpath("//input[@id='username']")
+        passwrod = browser.find_element_by_xpath("//input[@id='password']")
+        login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
+        username.send_keys("tomsmith")
+        passwrod.send_keys("SuperSecretPassword!")
+        login.click()
+        sleep(10)
+        filepath = "./screenshots/" + utils.get_timestamp() + ".png"
+        browser.save_screenshot(filepath)
+
+    except NoSuchElelemntException:
+        print("something went wrong")
+        filepath = "./screenshots/error-" + utils.get_timestamp() + ".png"
+        browser.save_screenshot(filepath)
 
 
 
@@ -53,9 +70,6 @@ def test_popup_window(browser):
     # submit,  take a screenshot, use break
     # switch back to main window
     # log each step with print
-
-
-
 
 
 def test_execute_js(browser):
@@ -90,7 +104,6 @@ def test_hover_action(browser):
     # perform move_to_element(element) action
     # click the element that appears on hover
     # log each step with print
-
 
 
 def test_drag_and_drop(browser):
