@@ -1,6 +1,3 @@
-# search_box = browser.find_element_by_xpath('search')
-# search_box.send_keys(Keys.ENTER)
-# search_box.submit()
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.keys import Keys
@@ -8,6 +5,9 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+# search_box = browser.find_element_by_xpath('search')
+# search_box.send_keys(Keys.ENTER)
+# search_box.submit()
 
 def test_forms_textboxes(browser):
     """working with forms, textboxes, checkboxes, and radio buttons."""
@@ -74,8 +74,7 @@ def test_dropdown(browser):
 
     browser.get(url)
     sleep(5)
-    dropdown_element = browser.find_element_by_xpath(
-        "//select[@id='dropdown']")
+    dropdown_element = browser.find_element_by_xpath("//select[@id='dropdown']")
     dropdown_list = Select(dropdown_element)
     print(dropdown_list.first_selected_option.text)
     assert dropdown_list.first_selected_option.text.strip() == "Please select an option"
