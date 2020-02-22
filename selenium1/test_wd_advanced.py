@@ -13,8 +13,6 @@ import selenium1.utilities as utils
     # Running JacaScript code
     # capturing screenshots and movies of test runs
 
-# print(utilities.get_timestamp())
-
 
 def test_take_screenshots(browser):
     """takes screenshots if no element found"""
@@ -23,10 +21,10 @@ def test_take_screenshots(browser):
     browser.get(url)
 
     # Steps to automate:
-    # use existing scipt, create a directory 
+    # use existing scipt
     # use try except 
     # get timestamp
-    # save screenshot with driver.save_screenshot(file)
+    # save screenshot with driver.save_screenshot(file) , use this path "./screenshots/timestamp.png"
     # log each step with print
 
     # use the following Login steps we created previously
