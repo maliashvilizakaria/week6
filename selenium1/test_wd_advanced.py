@@ -6,8 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import selenium1.utilities as utils
-from selenium.common.exceptions import NoSuchElelemntException
-
+from selenium.common.exceptions import NoSuchElementException
 # AGENDA: 
     # methods for performing keyboard and mouse actions using Actions class
     # simulating mouse operations such as draand driop and double click
@@ -20,40 +19,25 @@ def test_take_screenshots(browser):
     url = "http://the-internet.herokuapp.com/login"
     browser.get(url)
 
-    # Steps to automate:
-    # use existing scipt
-    # use try except 
-    # get timestamp
-    # save screenshot with driver.save_screenshot(file) , use this path "./screenshots/timestamp.png"
-    # log each step with print
-
-    # use the following Login steps we created previously
-    # username = browser.find_element_by_xpath("//input[@id='username']")
-    # passwrod = browser.find_element_by_xpath("//input[@id='password']")
-    # login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
-    # username.send_keys("tomsmith")
-    # passwrod.send_keys("SuperSecretPassword!")
-    # login.click()
-    # sleep(10)
-
     try:
         # use the following Login steps we created previously
         username = browser.find_element_by_xpath("//input[@id='username']")
         passwrod = browser.find_element_by_xpath("//input[@id='password']")
         login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
         username.send_keys("tomsmith")
+        filepath = "./screenshots/-" + utils.get_timestamp() + ".png"
+        browser.save_screenshot(filepath)
         passwrod.send_keys("SuperSecretPassword!")
         login.click()
         sleep(10)
-        filepath = "./screenshots/" + utils.get_timestamp() + ".png"
+        filepath = "./screenshots/-" + utils.get_timestamp() + ".png"
         browser.save_screenshot(filepath)
+        print('test completed!')
 
-    except NoSuchElelemntException:
+    except NoSuchElementException:
         print("something went wrong")
         filepath = "./screenshots/error-" + utils.get_timestamp() + ".png"
         browser.save_screenshot(filepath)
-
-
 
 def test_popup_window(browser):
     """ Switching to new window and switch back."""
@@ -70,7 +54,35 @@ def test_popup_window(browser):
     # submit,  take a screenshot, use break
     # switch back to main window
     # log each step with print
+    parentHandle = browser.current_window_handle
+    element = browser.find_element_by_xpath("//button[@id='openwindow']")
+    element.click()
+    print("new window opened, getting the handles")
+    handles = browser.window_handles
+    for handle in handles:
+        if handle != parentHandle:
+            browser.switch_to.window(handle)
+            print("switching to new window")
+            search = browser.find_element_by_xpath("//input[@id='search-courses']")
+            search.send_keys("java")
+            search.submit()
+            sleep(5)
+            print("serach succesfully executed, taking screenshot")
+            filepath = "./screenshots/" + utils.get_timestamp() + ".png"
+            browser.save_screenshot(filepath)
 
+    browser.switch_to.window(parentHandle)
+    print("switch back to original window")
+    sleep(5)
+
+def test_nba(browser):
+    browser.get("https://www.nba.com/")
+    scores = browser.find_element_by_xpath("//li[@class='nba-nav__container--center-menu-item']//a[contains(text(),'Scores')]")
+    scores.click()
+    browser.maximize_window()
+    browser.back()
+    failpath = "./screenshots/-" + utils.get_timestamp() + "nba.png"
+    browser.save_screenshot(failpath)
 
 def test_execute_js(browser):
     """ Demonstates executing some javaScript code with selenium."""
@@ -90,7 +102,6 @@ def test_execute_js(browser):
     # Scroll up
     browser.execute_script("window.scrollBy(0, -1300);")
     sleep(5)
-
 
 def test_hover_action(browser):
     """ Demonstates Mouse over action using ActionChains class."""
