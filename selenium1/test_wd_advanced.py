@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
     # simulating mouse operations such as draand driop and double click
     # Running JacaScript code
     # capturing screenshots and movies of test runs
-
+changes
 
 def test_take_screenshots(browser):
     """takes screenshots if no element found"""
